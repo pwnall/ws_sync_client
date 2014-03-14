@@ -14,11 +14,11 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
-  gem.name = "ws_sync"
-  gem.homepage = "http://github.com/pwnall/ws_sync"
+  gem.name = "ws_sync_client"
+  gem.homepage = "http://github.com/pwnall/ws_sync_client"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Synchronous WebSocket client}
+  gem.description = %Q{WebSocket client that does not require asynchronous programming}
   gem.email = "costan@gmail.com"
   gem.authors = ["Victor Costan"]
   # dependencies defined in Gemfile

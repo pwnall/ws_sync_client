@@ -2,7 +2,7 @@ require 'helper'
 
 describe 'WsSync' do
   before do
-    @ws = WsSync.new server_root_url + "/hello/world?answer=42"
+    @ws = WsSyncClient.new server_root_url + "/hello/world?answer=42"
   end
   after do
     @ws.close

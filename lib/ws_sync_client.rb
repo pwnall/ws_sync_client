@@ -3,7 +3,7 @@ require 'socket'  # For Addrinfo.
 require 'websocket'
 
 # Synchronous socket.
-class WsSync
+class WsSyncClient
   # Create a socket.
   #
   # @param [String] url a ws:// URL
