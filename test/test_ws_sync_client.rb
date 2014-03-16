@@ -63,4 +63,48 @@ describe 'WsSync' do
       end
     end
   end
+
+  describe '#close' do
+    it 'does not crash' do
+      @ws.close
+    end
+
+    it 'causes #send_frame to raise an exception' do
+      @ws.close
+      lambda {
+        @ws.send_frame JSON.dump(cmd: 'echo', seq: 1, data: 'Hello world!')
+      }.must_raise IOError
+    end
+
+    it 'causes #recv_frame to raise an exception' do
+      parsed = JSON.parse @ws.recv_frame
+      parsed['handshake'].must_equal 'completed'
+
+      @ws.close
+      lambda {
+        @ws.recv_frame
+      }.must_raise IOError
+    end
+  end
+
+  describe 'when the server closes the socket' do
+    before do
+      parsed = JSON.parse @ws.recv_frame
+      unless parsed['handshake'] == 'completed'
+        raise 'Setup error'
+      end
+      @ws.send_frame JSON.dump(cmd: 'close', seq: 1, code: 4321,
+                               reason: 'testing server-side closing')
+    end
+
+    it '#recv_frame raises an exception' do
+      lambda {
+        @ws.recv_frame
+      }.must_raise IOError
+    end
+
+    it '#close does not crash' do
+      @ws.close
+    end
+  end
 end

@@ -1,9 +1,19 @@
-= ws_sync
+# ws_sync_client
 
-Description goes here.
+Synchronous Ruby client for
+[the WebSocket protocol](http://tools.ietf.org/html/rfc6455).
 
-== Contributing to ws_sync
- 
+## Usage
+
+```ruby
+ws = WsSyncClient 'ws://localhost:4567/path'
+data_frame = ws.recv_frame
+ws.send_frame "Data frame"
+ws.close
+```
+
+## Contributing to ws_sync
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
@@ -12,8 +22,6 @@ Description goes here.
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-== Copyright
+## Copyright
 
-Copyright (c) 2014 Victor Costan. See LICENSE.txt for
-further details.
-
+Copyright (c) 2014 Victor Costan. See LICENSE.txt for further details.

@@ -36,11 +36,14 @@ EM.run do
       case command['cmd']
       when 'echo'
         response = { status: 'ok', seq: command['seq'], data: command['data'] }
+      when 'close'
+        ws.close command['code'], command['reason']
+        response = nil
       else
         response = { status: 'error', seq: command['seq'],
                      reason: 'unknown command' }
       end
-      ws.send JSON.dump(response)
+      ws.send JSON.dump(response) unless response.nil?
     end
 
     ws.onclose do
