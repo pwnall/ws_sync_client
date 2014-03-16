@@ -108,3 +108,20 @@ describe 'WsSync' do
     end
   end
 end
+
+describe 'WsSync' do
+  describe 'without a handshake echo' do
+    before do
+      @ws = WsSyncClient.new server_root_url + "/?echo_handshake=false"
+    end
+    after do
+      @ws.close
+    end
+
+    it 'completes a send/receive cycle' do
+      @ws.send_frame JSON.dump(cmd: 'echo', seq: 1, data: 'Hello world!')
+      parsed = JSON.parse @ws.recv_frame
+      parsed.must_equal 'status' => 'ok', 'seq' => 1, 'data' => 'Hello world!'
+    end
+  end
+end

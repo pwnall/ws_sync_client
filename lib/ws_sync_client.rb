@@ -9,7 +9,6 @@ class WsSyncClient
   # @param [String] url a ws:// URL
   # @param [Hash] options socket creation options
   # @option options [Socket] raw create this socket on top of a raw socket.
-  #
   def initialize(url, options = {})
     @url = url
     @handshake = WebSocket::Handshake::Client.new url: @url
@@ -25,7 +24,9 @@ class WsSyncClient
     @closed = false
     @incoming = WebSocket::Frame::Incoming::Client.new(
         version: @handshake.version)
-    @incoming << @handshake.leftovers
+    if leftovers = @handshake.leftovers
+      @incoming << leftovers
+    end
   end
 
   # Send a WebSocket frame.

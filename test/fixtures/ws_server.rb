@@ -26,9 +26,11 @@ require 'em-websocket'
 EM.run do
   EM::WebSocket.run host: '0.0.0.0', port: 9969 do |ws|
     ws.onopen do |handshake|
-      ws.send JSON.dump(handshake: 'completed', path: handshake.path,
-                        query: handshake.query_string,
-                        host: handshake.headers['Host'])
+      unless handshake.query['echo_handshake'] == 'false'
+        ws.send JSON.dump(handshake: 'completed', path: handshake.path,
+                          query: handshake.query_string,
+                          host: handshake.headers['Host'])
+      end
     end
 
     ws.onmessage do |message|
