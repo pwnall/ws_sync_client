@@ -5,29 +5,30 @@
 
 Gem::Specification.new do |s|
   s.name = "ws_sync_client"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Victor Costan"]
-  s.date = "2014-03-14"
+  s.date = "2014-03-16"
   s.description = "WebSocket client that does not require asynchronous programming"
   s.email = "costan@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
     "lib/ws_sync_client.rb",
     "test/fixtures/ws_server.rb",
     "test/helper.rb",
-    "test/test_ws_sync_client.rb"
+    "test/test_ws_sync_client.rb",
+    "ws_sync_client.gemspec"
   ]
   s.homepage = "http://github.com/pwnall/ws_sync_client"
   s.licenses = ["MIT"]
