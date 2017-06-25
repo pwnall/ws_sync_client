@@ -6,7 +6,7 @@
 #
 # Manual testing sequence for this test server:
 #
-# $ npm install -g ws
+# $ npm install -g wscat
 # $ wscat --connect ws://localhost:9969/hello/world?ohai
 # connected (press CTRL+C to quit)
 #
