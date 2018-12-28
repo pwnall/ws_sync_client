@@ -31,7 +31,7 @@ class WsSyncClient
 
   # Send a WebSocket frame.
   #
-  # @param [String] data the data to be sent
+  # @param [String] data the data to be sent or :closed if the socket is closed
   def send_frame(data)
     return :closed if @closed
 
