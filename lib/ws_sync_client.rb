@@ -111,7 +111,7 @@ class WsSyncClient
 
     bytes = @socket.recv @max_recv
 
-    if bytes == ""
+    if bytes.empty?
       @socket.close
       @closed = true
       return :closed
