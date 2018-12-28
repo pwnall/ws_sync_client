@@ -69,7 +69,7 @@ describe 'WsSync' do
       @ws.close
     end
 
-    it 'causes #send_frame to retur :closed' do
+    it 'causes #send_frame to return :closed' do
       @ws.close
 
       result = @ws.send_frame JSON.dump(cmd: 'echo', seq: 1, data: 'Hello world!')
