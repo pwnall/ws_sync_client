@@ -69,21 +69,20 @@ describe 'WsSync' do
       @ws.close
     end
 
-    it 'causes #send_frame to raise an exception' do
+    it 'causes #send_frame to retur :closed' do
       @ws.close
-      lambda {
-        @ws.send_frame JSON.dump(cmd: 'echo', seq: 1, data: 'Hello world!')
-      }.must_raise IOError
+
+      result = @ws.send_frame JSON.dump(cmd: 'echo', seq: 1, data: 'Hello world!')
+      result.must_equal :closed
     end
 
-    it 'causes #recv_frame to raise an exception' do
+    it 'causes #recv_frame to return :closed' do
       parsed = JSON.parse @ws.recv_frame
       parsed['handshake'].must_equal 'completed'
 
       @ws.close
-      lambda {
-        @ws.recv_frame
-      }.must_raise IOError
+      result = @ws.recv_frame
+      result.must_equal :closed
     end
   end
 
@@ -97,10 +96,9 @@ describe 'WsSync' do
                                reason: 'testing server-side closing')
     end
 
-    it '#recv_frame raises an exception' do
-      lambda {
-        @ws.recv_frame
-      }.must_raise IOError
+    it '#recv_frame returns :closed' do
+      result = @ws.recv_frame
+      result.must_equal :closed
     end
 
     it '#close does not crash' do
