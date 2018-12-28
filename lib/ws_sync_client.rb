@@ -33,6 +33,8 @@ class WsSyncClient
   #
   # @param [String] data the data to be sent
   def send_frame(data)
+    return :closed if @closed
+
     frame = WebSocket::Frame::Outgoing::Client.new version: @handshake.version,
         data: data, type: :text
     @socket.send frame.to_s, 0
@@ -40,9 +42,11 @@ class WsSyncClient
 
   # Receive a WebSocket frame.
   #
-  # @return [String] the frame data
+  # @return [String] the frame data or :closed if the socket is closed
   def recv_frame
     loop do
+      return :closed if @closed
+
       frame = @incoming.next
       if frame.nil?
         recv_bytes
@@ -70,7 +74,8 @@ class WsSyncClient
   # @param [Integer] code
   # @param [String] reason
   def close(code = 0, reason = '')
-    return if @closed
+    return true if @closed
+
     frame = WebSocket::Frame::Outgoing::Client.new version: @handshake.version,
         data: '', type: :close
     @socket.send frame.to_s, 0
@@ -83,6 +88,8 @@ class WsSyncClient
   # @private
   # This is used in the constructor
   def handshake
+    return :closed if @closed
+
     @socket.send @handshake.to_s, 0
 
     until @handshake.finished?
@@ -100,13 +107,24 @@ class WsSyncClient
   # @private
   # This is used in {WsSync#recv_frame}.
   def recv_bytes
+    return :closed if @closed
+
     bytes = @socket.recv @max_recv
+
+    if bytes == ""
+      @socket.close
+      @closed = true
+      return :closed
+    end
+
     @incoming << bytes
   end
   private :recv_bytes
 
   # Send
   def send_pong(ping_data)
+    return :closed if @closed
+
     frame = WebSocket::Frame::Outgoing::Client.new version: @handshake.version,
         data: ping_data, type: :pong
     @socket.send frame.to_s, 0
